@@ -1,0 +1,41 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %}BookStore{% endblock title %}
+{% block content %}
+  <section class="py-5 text-center container">
+    <div class="row py-lg-3">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-bold">Search, Read, Buy, Review</h1>
+        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+        <p>
+          <a href="#" class="btn btn-primary my-2">Make an account</a>
+        </p>
+      </div>
+    </div>
+  </section>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="pb-3 h5">All Books</div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for product in products %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <a class="text-decoration-none text-dark" href="{{product.get_absolute_url }}">
+                <img height="400" src="{{product.image.url}}" class="card-img-top" alt="...">
+              </a>
+              <div class="card-body">
+                <p class="card-text">
+                  <a class="text-decoration-none text-dark" href="{{product.get_absolute_url }}">{{ product.title |title }}</a>
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock content %}

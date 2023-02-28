@@ -1,0 +1,53 @@
+
+<header>
+  <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">BookStore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Library
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url "store:product_all" %}">All</a></li>
+              {% for c in categories %}
+                {% comment %} <li {% if category.slug == c.slug %}class="selected" {% endif %}> {% endcomment %}
+                <li>
+                  {% comment %} <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a> {% endcomment %}
+                  <a class="dropdown-item" href="{{c.get_absolute_url}}">{{ c.name|title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+        {% comment %} <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> {% endcomment %}
+        <a role = 'button'type = 'button' href="{% url 'basket:basket_summary' %}" class='btn btn-outline-secondary'>
+          {% with total_qty=basket|length %}
+            <div id= 'basket-qty' class='d-inline-flex'>
+              {% if total_qty > 0 %}
+                {{total_qty}}
+
+              {%else%}
+                0
+              {% endif %}
+            </div>
+          {% endwith %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          Basket
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
