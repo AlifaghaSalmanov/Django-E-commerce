@@ -42,5 +42,15 @@ def account_register(request):
             )
             user.email_user(subject=subject, message=message)
 
+        else:
+            registerForm = RegistrationForm()
+        return render(
+            request,
+            "account/registration/register.html",
+            {
+                "form": registerForm,
+            },
+        )
+
 
 # Create your views here.
