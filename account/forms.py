@@ -58,7 +58,6 @@ class RegistrationForm(forms.ModelForm):
     def clean_password2(self):
 
         cd = self.cleaned_data
-        print(cd["password2"])
         if cd["password"] != cd["password2"]:
             raise forms.ValidationError("Passwords do not match.")
         return cd["password2"]
@@ -90,3 +89,60 @@ class RegistrationForm(forms.ModelForm):
         self.fields["password2"].widget.attrs.update(
             {"class": "form-control", "placeholder": "Repeat Password"}
         )
+
+
+class UserEditForm(forms.ModelForm):
+
+    email = forms.EmailField(
+        label="Account email (can not be changed)",
+        max_length=200,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control mb-3",
+                "placeholder": "email",
+                "id": "form-email",
+                "readonly": "readonly",
+            }
+        ),
+    )
+
+    # user_name = forms.CharField(
+    #     label="Username",
+    #     min_length=4,
+    #     max_length=50,
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             "class": "form-control mb-3",
+    #             "placeholder": "Username",
+    #             "id": "form-firstname",
+    #             "readonly": "readonly",
+    #         }
+    #     ),
+    # )
+
+    first_name = forms.CharField(
+        label="Firstname",
+        min_length=4,
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control mb-3",
+                "placeholder": "Firstname",
+                "id": "form-lastname",
+            }
+        ),
+    )
+
+    class Meta:
+        model = UserBase
+        fields = (
+            "email",
+            # "user_name",
+            "first_name",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields["user_name"].required = True
+        self.fields["first_name"].required = True
+        self.fields["email"].required = True
