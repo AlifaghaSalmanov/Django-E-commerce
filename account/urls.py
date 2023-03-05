@@ -1,9 +1,9 @@
 from django.contrib.auth import views as auth_views
-from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
 
-from .forms import UserLoginForm
 from . import views
+from .forms import UserLoginForm
 
 app_name = "account"
 
@@ -26,5 +26,10 @@ urlpatterns = [
     ),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("profile/edit/", views.edit_details, name="edit_details"),
-    path("/", views.delete_user, name="delete_user"),
+    path("profile/delete/", views.delete_user, name="delete_user"),
+    path(
+        "profile/delete_confirm/",
+        TemplateView.as_view(template_name="account/user/delete_confirm.html"),
+        name="delete_confirmation",
+    ),
 ]

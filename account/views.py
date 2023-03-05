@@ -39,7 +39,11 @@ def edit_details(request):
 
 @login_required
 def delete_user(request):
-    pass
+    user = UserBase.objects.get(user_name=request.user)
+    user.is_active = False
+    user.save()
+    logout(request)
+    return redirect("account:delete_confirmation")
 
 
 def account_register(request):
