@@ -3,6 +3,7 @@
         "basketqty",
         "baskettotal",
         "newpass",
+        "orderplaced",
         "productid",
         "productqty",
         "pwdreset",
