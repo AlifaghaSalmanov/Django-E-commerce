@@ -2,9 +2,12 @@
     "cSpell.words": [
         "basketqty",
         "baskettotal",
+        "newpass",
         "productid",
         "productqty",
-        "skey"
+        "pwdreset",
+        "skey",
+        "uidb"
     ],
     "git.decorations.enabled": false
 }
