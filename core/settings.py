@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-2g@gf=86%4*gkwv8w^)3)86bvsru9frc8%dyap=)sm&)n51f^q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "basket",
     "account",
     "payment",
+    "orders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -142,6 +143,15 @@ LOGIN_URL = "/account/login/"
 
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
+# Basket session ID
+BASKET_SESSION_ID = "basket"
 
 # Email setting
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Stripe payment
+PUBLISHABLE_KEY = "pk_test_51MiygNHCokBIog8LjlggPLOigJbSzUyRIR5hIEr4vUiCsrxw9aFRjcKmzxbAfZdbTskxBW64LfTxDpQRjFOLuTh200WwynO5MJ"
+SECRET_KEY = "sk_test_51MiygNHCokBIog8LOx0fYKaNpONaPRGClNtMwCi92TwV3ZOM5801R5ODAdwb13idufEhZH7OYGiG2lGKmnNRimx500GdTYJ5CQ"
+STRIPE_ENDPOINT_SECRET = (
+    "whsec_5cd6987dddd938af9349144d1e12c7449f1aa04234daad7b17765098dfb03fea"
+)
