@@ -1,19 +1,23 @@
-{% extends "../store/base.html" %} {% load static %} {% block title %}Basket Summary{%endblock %}
+{% extends "base.html" %}
+{% load static %} {% block title %}Basket Summary{%endblock %}
 
 {% block content %}
 
 
-  <main class="pt-5">
-    <div class="container" style="max-width: 1000px">
-      <div class="col-12">
-        <h1 class="h2">Your Basket</h1>
-      </div>
-      <div class="col-12">
-        <p>Manage your <b>items</b> in your basket</p>
-      </div>
-      <hr />
+
+  <div class="container">
+    <div class="col-12">
+      <h1 class="h2">Your Basket</h1>
     </div>
-    <div class="container" style="max-width: 1000px">
+    <div class="col-12">
+      <p>Manage your <b>items</b> in your basket</p>
+    </div>
+    <hr />
+  </div>
+  <div class="container" >
+    {% if basket|length == 0 %}
+      <div class='col-12'>Your basket is empty <a href="{% url 'store:store_home' %}">Shop</a></div>
+    {% else %}
 
       <div class="row g-3">
         <div class="col-12 bg-light p-3 d-flex justify-content-between">
@@ -80,10 +84,12 @@
             {% endwith %}
           {% endfor %}
         </div>
-      </div>
 
-    </div>
-  </main>
+    {% endif %}
+  </div>
+
+  </div>
+
 
   <script>
     // Delete Item
