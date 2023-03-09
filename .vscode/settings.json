@@ -10,5 +10,8 @@
         "skey",
         "uidb"
     ],
-    "git.decorations.enabled": false
+    "git.decorations.enabled": false,
+    "cSpell.enableFiletypes": [
+        "django-html"
+    ]
 }
