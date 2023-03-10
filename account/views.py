@@ -7,33 +7,36 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
+from orders.views import user_orders
 
 from .forms import RegistrationForm, UserEditForm
 from .models import UserBase
 from .tokens import account_activation_token
-from orders.views import user_orders
 
-# Create your views here.
+
 @login_required
 def dashboard(request):
     orders = user_orders(request)
-    return render(request, "account/user/dashboard.html", {"orders": orders})
+    return render(
+        request,
+        "account/dashboard/dashboard.html",
+        {"section": "profile", "orders": orders},
+    )
 
 
 @login_required
 def edit_details(request):
     if request.method == "POST":
         user_form = UserEditForm(instance=request.user, data=request.POST)
+
         if user_form.is_valid():
             user_form.save()
-
-        else:
-            print(user_form.errors)
-
     else:
         user_form = UserEditForm(instance=request.user)
 
-    return render(request, "account/user/edit_details.html", {"user_form": user_form})
+    return render(
+        request, "account/dashboard/edit_details.html", {"user_form": user_form}
+    )
 
 
 @login_required
@@ -47,20 +50,17 @@ def delete_user(request):
 
 def account_register(request):
 
-    # if request.user.is_authenticated:
-    #     return redirect("/")
+    if request.user.is_authenticated:
+        return redirect("account:dashboard")
 
     if request.method == "POST":
         registerForm = RegistrationForm(request.POST)
         if registerForm.is_valid():
-
             user = registerForm.save(commit=False)
             user.email = registerForm.cleaned_data["email"]
             user.set_password(registerForm.cleaned_data["password"])
             user.is_active = False
             user.save()
-
-            # Setup email
             current_site = get_current_site(request)
             subject = "Activate your Account"
             message = render_to_string(
@@ -73,17 +73,14 @@ def account_register(request):
                 },
             )
             user.email_user(subject=subject, message=message)
-            return HttpResponse("registered successfully and activation sent")
-
+            return render(
+                request,
+                "account/registration/register_email_confirm.html",
+                {"form": registerForm},
+            )
     else:
         registerForm = RegistrationForm()
-    return render(
-        request,
-        "account/registration/register.html",
-        {
-            "form": registerForm,
-        },
-    )
+    return render(request, "account/registration/register.html", {"form": registerForm})
 
 
 def account_activate(request, uidb64, token):
