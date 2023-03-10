@@ -1,12 +1,12 @@
 import stripe
 import json
-
+import os
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
-
+from django.conf import settings
 from basket.basket import Basket
 from orders.views import payment_confirmation
 
@@ -30,11 +30,18 @@ def BasketView(request):
     total = total.replace(".", "")
     total = int(total)  # API converts 1899 to 18.99
 
-    stripe.api_key = "sk_test_51MiygNHCokBIog8LOx0fYKaNpONaPRGClNtMwCi92TwV3ZOM5801R5ODAdwb13idufEhZH7OYGiG2lGKmnNRimx500GdTYJ5CQ"
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     intent = stripe.PaymentIntent.create(
         amount=total, currency="usd", metadata={"userid": request.user.id}
     )
-    return render(request, "payment/home.html", {"client_secret": intent.client_secret})
+    return render(
+        request,
+        "payment/payment_form.html",
+        {
+            "client_secret": intent.client_secret,
+            "STRIPE_PUBLISHABLE_KEY": os.environ.get("STRIPE_PUBLISHABLE_KEY"),
+        },
+    )
 
 
 @csrf_exempt

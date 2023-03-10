@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -149,9 +150,12 @@ BASKET_SESSION_ID = "basket"
 # Email setting
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# Stripe payment
-PUBLISHABLE_KEY = "pk_test_51MiygNHCokBIog8LjlggPLOigJbSzUyRIR5hIEr4vUiCsrxw9aFRjcKmzxbAfZdbTskxBW64LfTxDpQRjFOLuTh200WwynO5MJ"
-SECRET_KEY = "sk_test_51MiygNHCokBIog8LOx0fYKaNpONaPRGClNtMwCi92TwV3ZOM5801R5ODAdwb13idufEhZH7OYGiG2lGKmnNRimx500GdTYJ5CQ"
+# Stripe Payment
+os.environ.setdefault(
+    "STRIPE_PUBLISHABLE_KEY",
+    "pk_test_51MiygNHCokBIog8LjlggPLOigJbSzUyRIR5hIEr4vUiCsrxw9aFRjcKmzxbAfZdbTskxBW64LfTxDpQRjFOLuTh200WwynO5MJ",
+)
+STRIPE_SECRET_KEY = "sk_test_51MiygNHCokBIog8LOx0fYKaNpONaPRGClNtMwCi92TwV3ZOM5801R5ODAdwb13idufEhZH7OYGiG2lGKmnNRimx500GdTYJ5CQ"
 STRIPE_ENDPOINT_SECRET = (
     "whsec_5cd6987dddd938af9349144d1e12c7449f1aa04234daad7b17765098dfb03fea"
 )
