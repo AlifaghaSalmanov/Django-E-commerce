@@ -2,6 +2,7 @@
     "cSpell.words": [
         "basketqty",
         "baskettotal",
+        "mptt",
         "newpass",
         "orderplaced",
         "productid",
@@ -13,5 +14,9 @@
     "git.decorations.enabled": false,
     "cSpell.enableFiletypes": [
         "django-html"
-    ]
+    ],
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
 }
