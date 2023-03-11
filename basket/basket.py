@@ -21,7 +21,7 @@ class Basket:
             self.basket[product_id]["qty"] = qty
         else:
             self.basket[product_id] = {
-                "price": str(product.price),
+                "price": str(product.regular_price),
                 "qty": int(qty),
             }
 
@@ -29,7 +29,7 @@ class Basket:
 
     def __iter__(self):
         product_ids = self.basket.keys()
-        products = Product.products.filter(id__in=product_ids)
+        products = Product.objects.filter(id__in=product_ids)
         basket = self.basket.copy()
 
         for product in products:
