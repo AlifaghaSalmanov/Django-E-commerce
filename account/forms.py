@@ -1,12 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm,
-                                       SetPasswordForm)
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 
-from .models import UserBase
+from .models import Customer
 
 
 class UserLoginForm(AuthenticationForm):
-
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -40,7 +42,7 @@ class RegistrationForm(forms.ModelForm):
     password2 = forms.CharField(label="Repeat Password", widget=forms.PasswordInput)
 
     class Meta:
-        model = UserBase
+        model = Customer
         fields = (
             "user_name",
             "email",
@@ -48,13 +50,12 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_username(self):
         user_name = self.cleaned_data["user_name"].lower()
-        r = UserBase.objects.filter(username=user_name)
+        r = Customer.objects.filter(username=user_name)
         if r.count():
             raise forms.ValidationError("Username already exists")
         return user_name
 
     def clean_password2(self):
-
         cd = self.cleaned_data
         if cd["password"] != cd["password2"]:
             raise forms.ValidationError("Passwords do not match.")
@@ -62,7 +63,7 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        if UserBase.objects.filter(email=email).exists():
+        if Customer.objects.filter(email=email).exists():
             raise forms.ValidationError(
                 "Please use another Email, that is already taken"
             )
@@ -90,7 +91,6 @@ class RegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
-
     email = forms.EmailField(
         label="Account email (can not be changed)",
         max_length=200,
@@ -103,20 +103,6 @@ class UserEditForm(forms.ModelForm):
             }
         ),
     )
-
-    # user_name = forms.CharField(
-    #     label="Username",
-    #     min_length=4,
-    #     max_length=50,
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control mb-3",
-    #             "placeholder": "Username",
-    #             "id": "form-firstname",
-    #             "readonly": "readonly",
-    #         }
-    #     ),
-    # )
 
     first_name = forms.CharField(
         label="Firstname",
@@ -132,7 +118,7 @@ class UserEditForm(forms.ModelForm):
     )
 
     class Meta:
-        model = UserBase
+        model = Customer
         fields = (
             "email",
             # "user_name",
@@ -160,7 +146,7 @@ class PwdResetForm(PasswordResetForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        user = UserBase.objects.filter(email=email)
+        user = Customer.objects.filter(email=email)
         if not user:
             raise forms.ValidationError(
                 "Unfortunately we can not find that email address"
