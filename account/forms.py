@@ -5,7 +5,41 @@ from django.contrib.auth.forms import (
     SetPasswordForm,
 )
 
-from .models import Customer
+from .models import Customer, Address
+
+
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = [
+            "full_name",
+            "phone",
+            "address_line",
+            "address_line2",
+            "town_city",
+            "postcode",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["full_name"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Full Name"}
+        )
+        self.fields["phone"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Phone"}
+        )
+        self.fields["address_line"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Address Line 1"}
+        )
+        self.fields["address_line2"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Address Line 2"}
+        )
+        self.fields["town_city"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Town/City"}
+        )
+        self.fields["postcode"].widget.attrs.update(
+            {"class": "form-control mb-2", "placeholder": "Postcode"}
+        )
 
 
 class UserLoginForm(AuthenticationForm):
