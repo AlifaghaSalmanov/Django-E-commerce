@@ -8,6 +8,7 @@
         "productid",
         "productqty",
         "pwdreset",
+        "REFERER",
         "skey",
         "uidb"
     ],

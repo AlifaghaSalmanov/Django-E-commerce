@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -27,10 +28,14 @@ def wishlist(request):
 @login_required
 def add_to_wishlist(request, id):
     product = get_object_or_404(Product, id=id)
-    if product.user_wishlist.filter(id=request.user.id).exists():
-        product.user_wishlist.remove(request.user)
+    if product.users_wishlist.filter(id=request.user.id).exists():
+        product.users_wishlist.remove(request.user)
+        messages.success(
+            request, f"{product.title} has been removed from your WishList"
+        )
     else:
-        product.user_wishlist.add(request.user)
+        product.users_wishlist.add(request.user)
+        messages.success(request, f"Added {product.title} to your WishList")
     return redirect(request.META["HTTP_REFERER"])
 
 
