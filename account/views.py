@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
 from orders.views import user_orders
 from store.models import Product
+from orders.models import Order
+
 
 from .forms import RegistrationForm, UserEditForm, UserAddressForm
 from .models import Customer, Address
@@ -172,3 +174,12 @@ def set_default_address(request, id):
     Address.objects.filter(customer=request.user, default=True).update(default=False)
     Address.objects.filter(pk=id, customer=request.user).update(default=True)
     return redirect("account:addresses")
+
+
+@login_required
+def user_orders(request):
+    user_id = request.user.id
+    # orders = Order.objects.filter(user_id=user_id).filter(billing_status=True) I edited this line
+    orders = Order.objects.filter(user_id=user_id).filter(billing_status=False)
+    print(f"{orders=}")
+    return render(request, "account/dashboard/user_orders.html", {"orders": orders})

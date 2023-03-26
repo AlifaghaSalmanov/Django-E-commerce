@@ -101,7 +101,7 @@ class Product(models.Model):
                 "max_length": _("The price must be between 0 and 999.99."),
             },
         },
-        max_digits=5,
+        max_digits=8,
         decimal_places=2,
     )
     discount_price = models.DecimalField(
@@ -112,7 +112,7 @@ class Product(models.Model):
                 "max_length": _("The price must be between 0 and 999.99."),
             },
         },
-        max_digits=5,
+        max_digits=8,
         decimal_places=2,
     )
     is_active = models.BooleanField(
