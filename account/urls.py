@@ -71,6 +71,7 @@ urlpatterns = [
         views.set_default_address,
         name="set_default",
     ),
+    path("user_orders/", views.user_orders, name="user_orders"),
     # Wish List
     path(
         "wishlist",
